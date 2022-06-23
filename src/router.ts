@@ -51,6 +51,20 @@ export default new Router({
       ]
     },
     {
+      path: '/devices',
+      component: Layout,
+      children: [
+        {
+          path: 'os',
+          component: () => import('@/views/devices/deviceOsList.vue'),
+          meta: {
+            title: 'DeviceOs',
+            icon: 'table'
+          }
+        }
+      ]
+    },
+    {
       path: '*',
       redirect: '/404',
       meta: { hidden: true }

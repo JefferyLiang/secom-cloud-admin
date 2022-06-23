@@ -6,6 +6,7 @@ import SvgIcon from 'vue-svgicon'
 
 import '@/styles/element-variables.scss'
 import '@/styles/index.scss'
+import '@/styles/global.scss'
 
 import App from '@/App.vue'
 import store from '@/store'
