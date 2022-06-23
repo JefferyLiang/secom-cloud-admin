@@ -1,5 +1,5 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { login, logout, getUserInfo } from '@/api/users'
+import { userLogin, userInfo } from '@/api/users'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
 
@@ -48,7 +48,7 @@ class User extends VuexModule implements IUserState {
   public async Login(userInfo: { username: string, password: string }) {
     let { username, password } = userInfo
     username = username.trim()
-    const { data } = await login({ username, password })
+    const { data } = await userLogin({ email: username, password })
     setToken(data.accessToken)
     this.SET_TOKEN(data.accessToken)
   }
@@ -65,19 +65,25 @@ class User extends VuexModule implements IUserState {
     if (this.token === '') {
       throw Error('GetUserInfo: token is undefined!')
     }
-    const { data } = await getUserInfo({ /* Your params here */ })
-    if (!data) {
-      throw Error('Verification failed, please Login again.')
-    }
-    const { roles, name, avatar, introduction } = data.user
-    // roles must be a non-empty array
-    if (!roles || roles.length <= 0) {
-      throw Error('GetUserInfo: roles must be a non-null array!')
-    }
+    const { data } = await userInfo()
+    const { email, nickname, roles } = data
     this.SET_ROLES(roles)
-    this.SET_NAME(name)
-    this.SET_AVATAR(avatar)
-    this.SET_INTRODUCTION(introduction)
+    this.SET_NAME(nickname)
+    this.SET_AVATAR('')
+    this.SET_INTRODUCTION(email)
+    // const { data } = await getUserInfo({ /* Your params here */ })
+    // if (!data) {
+    //   throw Error('Verification failed, please Login again.')
+    // }
+    // const { roles, name, avatar, introduction } = data.user
+    // roles must be a non-empty array
+    // if (!roles || roles.length <= 0) {
+    //   throw Error('GetUserInfo: roles must be a non-null array!')
+    // }
+    // this.SET_ROLES(roles)
+    // this.SET_NAME(name)
+    // this.SET_AVATAR(avatar)
+    // this.SET_INTRODUCTION(introduction)
   }
 
   @Action
@@ -85,7 +91,7 @@ class User extends VuexModule implements IUserState {
     if (this.token === '') {
       throw Error('LogOut: token is undefined!')
     }
-    await logout()
+    // await logout()
     removeToken()
     this.SET_TOKEN('')
     this.SET_ROLES([])

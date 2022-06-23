@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import { AxiosRequest } from '@/utils/axios'
+import { getToken } from '@/utils/cookies'
 
 export const getUserInfo = (data: any) =>
   request({
@@ -19,3 +21,13 @@ export const logout = () =>
     url: '/users/logout',
     method: 'post'
   })
+
+const axiosRequest = new AxiosRequest('/accounts/v1/users', { auth: true })
+
+export const userLogin = (data: any) => axiosRequest.post('/login', data)
+
+export const userInfo = () => axiosRequest.get('/info', {
+  headers: {
+    Authorization: `Breaer ${getToken()}`
+  }
+})

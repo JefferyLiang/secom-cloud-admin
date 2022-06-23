@@ -3,13 +3,12 @@
     <el-form
       ref="loginForm"
       :model="loginForm"
-      :rules="loginRules"
       class="login-form"
       autocomplete="on"
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">SECOM</h3>
       </div>
 
       <el-form-item prop="username">
@@ -72,41 +71,41 @@ import { Route } from 'vue-router'
 import { Dictionary } from 'vue-router/types/router'
 import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
-import { isValidUsername } from '@/utils/validate'
+// import { isValidUsername } from '@/utils/validate'
 
 @Component({
   name: 'Login'
 })
 export default class extends Vue {
-  private validateUsername = (rule: any, value: string, callback: Function) => {
-    if (!isValidUsername(value)) {
-      callback(new Error('Please enter the correct user name'))
-    } else {
-      callback()
-    }
-  };
+  // private validateUsername = (rule: any, value: string, callback: Function) => {
+  //   if (!isValidUsername(value)) {
+  //     callback(new Error('Please enter the correct user name'))
+  //   } else {
+  //     callback()
+  //   }
+  // };
 
-  private validatePassword = (rule: any, value: string, callback: Function) => {
-    if (value.length < 6) {
-      callback(new Error('The password can not be less than 6 digits'))
-    } else {
-      callback()
-    }
-  };
+  // private validatePassword = (rule: any, value: string, callback: Function) => {
+  //   if (value.length < 6) {
+  //     callback(new Error('The password can not be less than 6 digits'))
+  //   } else {
+  //     callback()
+  //   }
+  // };
 
   private loginForm = {
-    username: 'admin',
-    password: '111111'
+    username: '',
+    password: ''
   };
 
-  private loginRules = {
-    username: [{ validator: this.validateUsername, trigger: 'blur' }],
-    password: [{ validator: this.validatePassword, trigger: 'blur' }]
-  };
+  // private loginRules = {
+  //   username: [{ validator: this.validateUsername, trigger: 'blur' }],
+  //   password: [{ validator: this.validatePassword, trigger: 'blur' }]
+  // };
 
   private passwordType = 'password';
   private loading = false;
-  private showDialog = false;
+  // private showDialog = false;
   private redirect?: string;
   private otherQuery: Dictionary<string> = {};
 
@@ -141,7 +140,7 @@ export default class extends Vue {
   }
 
   private handleLogin() {
-    (this.$refs.loginForm as ElForm).validate(async(valid: boolean) => {
+    (this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
       if (valid) {
         this.loading = true
         await UserModule.Login(this.loginForm)
